@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/jgsheppa/go-tooling/cmd/counter"
+	"fmt"
 )
 
 func main() {
-	counter.Next()
+	fmt.Println("hello world")
 }

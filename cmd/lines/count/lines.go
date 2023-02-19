@@ -1,8 +1,9 @@
-package lines
+package count
 
 import (
 	"bufio"
 	"errors"
+	"fmt"
 	"io"
 	"os"
 )
@@ -10,6 +11,7 @@ import (
 type counter struct {
 	Input  io.Reader
 	Output io.Writer
+	Args   []string
 }
 
 type option func(*counter) error
@@ -39,12 +41,26 @@ func WithInput(input io.Reader) option {
 	}
 }
 
-func WithOutput(input io.Reader) option {
+func WithOutput(output io.Writer) option {
 	return func(c *counter) error {
-		if input == nil {
-			return errors.New("nil output reader")
+		if output == nil {
+			return errors.New("nil output writer")
 		}
-		c.Input = input
+		c.Output = output
+		return nil
+	}
+}
+
+func WithInputFromArgs(args []string) option {
+	return func(c *counter) error {
+		if len(args) == 0 {
+			return nil
+		}
+		f, err := os.Open(args[0])
+		if err != nil {
+			return err
+		}
+		c.Input = f
 		return nil
 	}
 }
@@ -55,9 +71,9 @@ func NewFileReader() *counter {
 	}
 }
 
-func (f *counter) Lines() int {
+func (c *counter) Lines() int {
 	lines := 0
-	scanner := bufio.NewScanner(f.Input)
+	scanner := bufio.NewScanner(c.Input)
 	for scanner.Scan() {
 		lines++
 	}
@@ -65,9 +81,12 @@ func (f *counter) Lines() int {
 }
 
 func Lines() int {
-	c, err := NewCounter()
+	c, err := NewCounter(
+		WithInputFromArgs(os.Args[1:]),
+	)
 	if err != nil {
-		panic("Lines function: internal error")
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
 	}
 	return c.Lines()
 }
