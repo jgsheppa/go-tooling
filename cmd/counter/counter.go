@@ -22,7 +22,6 @@ func NewCounter(start int) *Counter {
 
 func (c *Counter) Next() {
 	c.Current = c.Current + 1
-	fmt.Printf("current iteration: %v \n", c.Current)
 	fmt.Fprintln(c.Output, c.Current)
 }
 
