@@ -9,14 +9,41 @@ func TestNextCounterToWriter(t *testing.T) {
 	t.Parallel()
 	fakeTerminal := &bytes.Buffer{}
 
-	c := &Counter{
-		Current: 0,
-		Output:  fakeTerminal,
+
+	cases := []struct {
+		description string
+		current int
+		iterations int
+		want int
+	}{
+		{
+			description: "should equal 5",
+			current: 0,
+			iterations: 5,
+			want: 5,
+		},
+		{
+			description: "should equal 2",
+			current: 1,
+			iterations: 2,
+			want: 2,
+		},
 	}
-	c.Next()
-	want := "1\n"
-	got := fakeTerminal.String()
-	if want != got {
-		t.Errorf("want %q, got %q", want, got)
-	}
+
+	for _, tt := range cases {
+		c := &Counter{
+			Current: tt.current,
+			Output:  fakeTerminal,
+		}
+
+        t.Run(tt.description, func(t *testing.T){
+			for i := tt.current; i < tt.iterations; i++ {
+				c.Next()
+			}
+            
+            if c.Current != tt.want {
+                t.Errorf("want %d, but got %d", tt.want, c.Current)
+            }
+        })
+    }
 }
