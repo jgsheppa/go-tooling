@@ -19,7 +19,7 @@ func (c *counter) Words() int {
 
 func Words() int {
 	c, err := NewCounter(
-		WithInputFromArgs(os.Args[1:]),
+		FromArgs(os.Args[1:]),
 	)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)

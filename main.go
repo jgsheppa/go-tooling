@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"github.com/jgsheppa/go-tooling/cmd/count"
 )
 
 func main() {
-	fmt.Println("hello world")
+	count.RunCLI()
 }

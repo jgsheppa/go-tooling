@@ -2,6 +2,7 @@ package count
 
 import (
 	"bytes"
+	"io"
 	"testing"
 )
 
@@ -27,7 +28,7 @@ func TestInputFromArgs(t *testing.T) {
 	args := []string{"testdata/three_lines.txt"}
 
 	c, err := NewCounter(
-		WithInputFromArgs(args),
+		FromArgs(args),
 	)
 
 	if err != nil {
@@ -45,7 +46,7 @@ func TestWithInputFromArgsEmpty(t *testing.T) {
 	inputBuf := bytes.NewBufferString("1\n2\n3")
 	c, err := NewCounter(
 		WithInput(inputBuf),
-		WithInputFromArgs([]string{}),
+		FromArgs([]string{}),
 	)
 	if err != nil {
 		t.Fatal(err)
@@ -54,5 +55,17 @@ func TestWithInputFromArgsEmpty(t *testing.T) {
 	got := c.Lines()
 	if want != got {
 		t.Errorf("want %d, got %d", want, got)
+	}
+}
+
+func TestFromArgsErrorsOnBogusFlag(t *testing.T) {
+	t.Parallel()
+	args := []string{"-bogus"}
+	_, err := NewCounter(
+		WithOutput(io.Discard),
+		FromArgs(args),
+	)
+	if err == nil {
+		t.Fatal("want error on bogus flag, got nil")
 	}
 }
