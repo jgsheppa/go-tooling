@@ -15,7 +15,7 @@ type Status struct {
 var pmsetOutput = regexp.MustCompile("([0-9]+)%")
 
 func ParsePmsetOutput(data string) (Status, error) {
-	if runtime.GOOS == "darwin" {
+	if runtime.GOOS != "darwin" {
 		panic("pmset command only functions on macOS")
 	}
 
@@ -33,7 +33,7 @@ func ParsePmsetOutput(data string) (Status, error) {
 }
 
 func GetPmsetOutput() (string, error) {
-	if runtime.GOOS == "darwin" {
+	if runtime.GOOS != "darwin" {
 		panic("pmset command only functions on macOS")
 	}
 
