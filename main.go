@@ -1,14 +1,9 @@
 package main
 
 import (
-	"os"
-	"os/exec"
+	"github.com/jgsheppa/go-tooling/cmd/shell"
 )
 
 func main() {
-	// count.RunCLI()
-
-	c := exec.Command("/usr/bin/ls")
-	c.Stdout = os.Stdout
-	c.Run()
+	shell.RunCLI()
 }
