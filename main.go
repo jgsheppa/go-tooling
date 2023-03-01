@@ -1,9 +1,7 @@
 package main
 
-import (
-	"github.com/jgsheppa/go-tooling/cmd/shell"
-)
+import "github.com/jgsheppa/go-tooling/cmd/pipeline"
 
 func main() {
-	shell.RunCLI()
+	pipeline.FromString("hello, world\n").Stdout()
 }
