@@ -1,12 +1,21 @@
 package battery
 
 import (
+	"encoding/json"
 	"fmt"
 	"os/exec"
 	"regexp"
 	"runtime"
 	"strconv"
 )
+
+type Battery struct {
+	Name             string
+	ID               int64
+	ChargePercent    int
+	TimeToFullCharge string
+	Present          bool
+}
 
 type Status struct {
 	ChargePercent int
@@ -43,4 +52,12 @@ func GetPmsetOutput() (string, error) {
 		return "", err
 	}
 	return string(data), nil
+}
+
+func (b Battery) ToJSON() string {
+	output, err := json.MarshalIndent(b, "", "  ")
+	if err != nil {
+		panic(err)
+	}
+	return string(output)
 }

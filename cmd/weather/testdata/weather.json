@@ -1,0 +1,11 @@
+{
+  "weather": [
+    {
+      "id": 801,
+      "main": "Clouds",
+      "description": "few clouds",
+      "icon": "02d"
+    }
+  ],
+  "main": { "temp": 284.1 }
+}

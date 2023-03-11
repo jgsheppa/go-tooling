@@ -1,7 +1,9 @@
 package main
 
-import "github.com/jgsheppa/go-tooling/cmd/pipeline"
+import (
+	"github.com/jgsheppa/go-tooling/cmd/weather"
+)
 
 func main() {
-	pipeline.FromString("hello, world\n").Stdout()
+	weather.RunCLI()
 }
